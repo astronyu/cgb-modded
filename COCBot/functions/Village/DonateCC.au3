@@ -26,6 +26,17 @@ Func DonateCC($Check = False)
 	Global $Donate = BitOR($DonateTroop, $DonateAllTroop)
 
 	If $Donate = False Then Return ; exit func if no donate checkmarks
+	
+	; Checking donate ratio, stop donate when donate > received
+	If $checkUseClanCastleBalanced = 1 then
+	IF  Number(Number($TroopsDonated)/Number($TroopsReceived)) > (Number($ratioNumeratorDonated)/Number($ratioDenominatorReceived)) Then
+	      SetLog("Stop Donate, donated (" & $TroopsDonated & ") / received (" & $TroopsReceived & ") > " & $ratioNumeratorDonated & "/" & $ratioDenominatorReceived, $COLOR_BLUE)
+	$Donate = False  
+	Else
+	SetLog("Continue Donate, donated (" & $TroopsDonated & ") / received (" & $TroopsReceived & ") >= " & $ratioNumeratorDonated & "/" & $ratioDenominatorReceived, $COLOR_BLUE)
+	$Donate = True
+	    Endif
+	Endif
 
 	Local $y = 119
 	;check for new chats first
